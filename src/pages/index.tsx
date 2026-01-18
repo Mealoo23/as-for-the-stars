@@ -13,13 +13,16 @@ const geistMono = Geist_Mono({
 
 export default function Home() {
   return (
-    <div className={`${geistSans.className} ${geistMono.className} relative min-h-screen w-full overflow-hidden`}>
-      <Image
+    <div className={`${geistSans.className} ${geistMono.className}`} style={{ height: '100vh', width: '100vw', overflow: 'hidden' }}>
+      <img
         src="/background.svg"
         alt="Background"
-        fill
-        className="absolute inset-0 object-cover"
-        priority
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          display: 'block'
+        }}
       />
     </div>
   );
