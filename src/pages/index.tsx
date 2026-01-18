@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <div className={`${geistSans.className} ${geistMono.className} relative min-h-screen`}>
       <img
-        src="/Background.png"
+        src="/background.png"
         alt="Background"
         style={{
           position: 'fixed',
