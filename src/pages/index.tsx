@@ -13,16 +13,22 @@ const geistMono = Geist_Mono({
 
 export default function Home() {
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} flex min-h-screen items-center justify-center font-sans`}
-      style={{
-        backgroundImage: `url('/background.svg')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-      }}
-    >
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white/90 dark:bg-black/90 sm:items-start">
+    <div className={`${geistSans.className} ${geistMono.className} relative min-h-screen`}>
+      <img
+        src="/background.svg"
+        alt="Background"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: 0,
+        }}
+      />
+      <div className="relative z-10 flex min-h-screen items-center justify-center font-sans">
+        <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white/90 dark:bg-black/90 sm:items-start">
         <Image
           className="dark:invert"
           src="/next.svg"
@@ -78,7 +84,8 @@ export default function Home() {
             Documentation
           </a>
         </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
