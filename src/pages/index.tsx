@@ -15,7 +15,20 @@ const geistMono = Geist_Mono({
 export default function Home() {
   return (
     <div className={`${geistSans.className} ${geistMono.className}`}>
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <img
+        src="/background1.png"
+        alt="Background"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: 0,
+        }}
+      />
+      <main className="flex min-h-screen flex-col items-center justify-between p-24 relative z-10">
         {/* <BirthChartForm /> */}
       </main>
     </div>
