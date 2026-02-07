@@ -24,15 +24,9 @@ const StarButton: React.FC<{ buttonHovered: boolean, setButtonHovered: (hovered:
           left: '0',
           width: '100%',
           height: '100%',
-          backgroundColor: 'rgba(255, 255, 0, 0.5)',
-          opacity: 0,
+          backgroundColor: 'rgba(255, 255, 0, 0.8)',
+          opacity: buttonHovered ? 1 : 0,
           transition: 'opacity 0.2s ease-in-out',
-        }}
-        onMouseEnter={() => {
-          setButtonHovered(true);
-        }}
-        onMouseLeave={() => {
-          setButtonHovered(false);
         }}
       />
     )}
@@ -40,15 +34,33 @@ const StarButton: React.FC<{ buttonHovered: boolean, setButtonHovered: (hovered:
 );
 
 const Homepage: React.FC = () => {
-  const [buttonHovered, setButtonHovered] = useState<boolean>(false);
+  const [buttonHovered, setButtonHovered] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
-  const handleButtonHover = (hovered: boolean) => {
-    setButtonHovered(hovered);
+  const handleButtonHover = (index: number) => (hovered: boolean) => {
+    const newButtonHovered = [...buttonHovered];
+    newButtonHovered[index] = hovered;
+    setButtonHovered(newButtonHovered);
   };
 
-  const buttons = Array.from({ length: 5 }, (_, index) => (
-    <div key={index} style={{ position: 'fixed', right: '4px', top: `${index * 100}px` }}>
-      <StarButton buttonHovered={buttonHovered} setButtonHovered={handleButtonHover} />
+  const buttons = [
+    { left: true, top: 0 },
+    { left: true, top: 100 },
+    { left: true, top: 200 },
+    { left: false, top: 0 },
+    { left: false, top: 100 },
+    { left: false, top: 200 },
+    { left: true, top: 0 },
+  ].map(({ left, top }, index) => (
+    <div key={index} style={{ position: 'fixed', left: left ? '4px' : 'auto', right: left ? 'auto' : '4px', top: `${top}px` }}>
+      <StarButton buttonHovered={buttonHovered[index]} setButtonHovered={handleButtonHover(index)} />
     </div>
   ));
 
