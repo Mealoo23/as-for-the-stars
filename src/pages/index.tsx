@@ -1,6 +1,6 @@
 import React from 'react';
 
-const StarButton = () => (
+const StarButton = ({ buttonHovered, setButtonHovered }: { buttonHovered: boolean, setButtonHovered: (hovered: boolean) => void }) => (
   <button
     style={{
       position: 'relative',
@@ -42,9 +42,13 @@ const StarButton = () => (
 const Homepage: React.FC = () => {
   const [buttonHovered, setButtonHovered] = useState<boolean>(false);
 
+  const handleButtonHover = (hovered: boolean) => {
+    setButtonHovered(hovered);
+  };
+
   const buttons = Array.from({ length: 5 }, (_, index) => (
     <div key={index} style={{ position: 'fixed', right: '4px', top: `${index * 100}px` }}>
-      <StarButton buttonHovered={buttonHovered} setButtonHovered={setButtonHovered} />
+      <StarButton buttonHovered={buttonHovered} setButtonHovered={handleButtonHover} />
     </div>
   ));
 
