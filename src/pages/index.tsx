@@ -2,13 +2,13 @@ import React from 'react';
 
 const StarButton = () => (
   <button>
-    <img src="/star-button.png" alt="Star Button" style={{ width: '50px', height: '50px' }} />
+    <img src="/star-button.png" alt="Star Button" style={{ width: '100px', height: '100px' }} />
   </button>
 );
 
 const Homepage: React.FC = () => {
   const buttons = Array.from({ length: 5 }, (_, index) => (
-    <div key={index} className="fixed right-4 top-{index * 50}px">
+    <div key={index} className="fixed right-4 top-{index * 80}px">
       <StarButton />
     </div>
   ));
