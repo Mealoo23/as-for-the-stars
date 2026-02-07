@@ -44,6 +44,3 @@ const StarButton: React.FC<StarButtonProps> = ({ buttonHovered, setButtonHovered
 );
 
 export { StarButton, getButtonStyle };
-export default function StarButton({ buttonHovered, setButtonHovered }: StarButtonProps) {
-  // ...
-}
