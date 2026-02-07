@@ -1,32 +1,20 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-///import BirthChartForm from "../components/BirthChartForm";
+import React from 'react';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const StarButton = () => (
+  <button>
+    <img src="/star-button.png" alt="Star Button" style={{ width: '50px', height: '50px' }} />
+  </button>
+);
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export default function Home() {
-  const starButton = (
-    <button>
-      <img src="/star-button.png" alt="Star Button" />
-    </button>
-  );
-
-  const buttons = Array.from({length: 5}, (_, index) => (
+const Homepage: React.FC = () => {
+  const buttons = Array.from({ length: 5 }, (_, index) => (
     <div key={index} className="fixed right-4 top-{index * 50}px">
-      {starButton}
+      <StarButton />
     </div>
   ));
 
   return (
-    <div className={`${geistSans.className} ${geistMono.className}`}>
+    <div className="flex min-h-screen flex-col items-center justify-between p-24 relative z-10">
       <img
         src="/background1.png"
         alt="Background"
@@ -40,9 +28,11 @@ export default function Home() {
           zIndex: 0,
         }}
       />
-      <main className="flex min-h-screen flex-col items-center justify-between p-24 relative z-10">
+      <main className="flex flex-col items-center justify-between">
         {buttons}
       </main>
     </div>
   );
-}
+};
+
+export default Homepage;
