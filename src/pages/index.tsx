@@ -35,6 +35,8 @@ const Homepage: React.FC = () => {
   );
 };
 
+import React, { useState } from 'react';
+
 const Homepage: React.FC = () => {
   const [buttonHovered, setButtonHovered] = useState<boolean>(false);
 
