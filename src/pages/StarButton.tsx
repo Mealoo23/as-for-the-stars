@@ -34,7 +34,7 @@ const StarButton: React.FC<StarButtonProps> = ({ buttonHovered, setButtonHovered
           left: '0',
           width: '100%',
           height: '100%',
-          backgroundColor: 'rgba(255, 255, 0, 0.8)',
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
           opacity: buttonHovered ? 1 : 0,
           transition: 'opacity 0.2s ease-in-out',
         }}
