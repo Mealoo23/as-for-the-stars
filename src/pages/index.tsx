@@ -1,15 +1,50 @@
 import React from 'react';
 
 const StarButton = () => (
-  <button>
-    <img src="/star-button.png" alt="Star Button" style={{ width: '100px', height: '100px' }} />
+  <button
+    style={{
+      position: 'relative',
+      width: '100px',
+      height: '100px',
+      cursor: 'pointer',
+    }}
+    onMouseEnter={() => {
+      setButtonHovered(true);
+    }}
+    onMouseLeave={() => {
+      setButtonHovered(false);
+    }}
+  >
+    <img src="/star-button.png" alt="Star Button" style={{ width: '100%', height: '100%' }} />
+    {buttonHovered && (
+      <div
+        style={{
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(255, 255, 0, 0.5)',
+          opacity: 0,
+          transition: 'opacity 0.2s ease-in-out',
+        }}
+        onMouseEnter={() => {
+          setButtonHovered(true);
+        }}
+        onMouseLeave={() => {
+          setButtonHovered(false);
+        }}
+      />
+    )}
   </button>
 );
 
 const Homepage: React.FC = () => {
+  const [buttonHovered, setButtonHovered] = useState<boolean>(false);
+
   const buttons = Array.from({ length: 5 }, (_, index) => (
-    <div key={index} style={{ position: 'fixed', right: '4px', top: `${index * 150}px` }}>
-      <StarButton />
+    <div key={index} style={{ position: 'fixed', right: '4px', top: `${index * 100}px` }}>
+      <StarButton buttonHovered={buttonHovered} setButtonHovered={setButtonHovered} />
     </div>
   ));
 
