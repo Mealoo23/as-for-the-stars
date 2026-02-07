@@ -50,3 +50,5 @@ export const StarButton = ({ buttonHovered, setButtonHovered }: StarButtonProps)
 export function getButtonStyle(hovered: boolean) {
   // getButtonStyle logic
 }
+
+export default StarButton;
