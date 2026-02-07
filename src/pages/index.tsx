@@ -8,7 +8,7 @@ const StarButton = () => (
 
 const Homepage: React.FC = () => {
   const buttons = Array.from({ length: 5 }, (_, index) => (
-    <div key={index} className="fixed right-4 top-{index * 50}px">
+    <div key={index} style={{ position: 'fixed', right: '4px', top: `${index * 50}px` }}>
       <StarButton />
     </div>
   ));
@@ -34,5 +34,3 @@ const Homepage: React.FC = () => {
     </div>
   );
 };
-
-export default Homepage;
