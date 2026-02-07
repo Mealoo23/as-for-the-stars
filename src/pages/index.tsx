@@ -1,25 +1,25 @@
 import React, { useState, useCallback } from 'react';
-import StarButton from './StarButton';
+import React, { useState, useCallback, useMemo } from 'react';
 import Head from 'next/head';
 
 const Homepage: React.FC = () => {
   // Track which single button is active (-1 means none)
   const [activeButtonIndex, setActiveButtonIndex] = useState<number>(-1);
-
-  // Handle button activation - only one can be active at a time
+  // Track which single button is selected (-1 means none)
+  const [selectedButtonIndex, setSelectedButtonIndex] = useState<number>(-1);
   const handleButtonActivate = useCallback((index: number, isActive: boolean) => {
     if (isActive) {
       setActiveButtonIndex(index);
     } else if (activeButtonIndex === index) {
       // Only clear if this was the active button
       setActiveButtonIndex(-1);
-    }
-  }, [activeButtonIndex]);
-
-  // Clear all active states (useful for clicking background)
-  const clearAllActive = useCallback(() => {
-    setActiveButtonIndex(-1);
-  }, []);
+  // Handle button selection - only one can be selected at a time
+  const handleButtonSelect = useCallback((index: number) => {
+    setSelectedButtonIndex((prev) => {
+      // Toggle: if already selected, deselect it
+      if (prev === index) {
+        return -1;
+      }
 
   // Button configurations: 3 left, 3 right with labels
   const buttonConfigs = [
@@ -33,6 +33,8 @@ const Homepage: React.FC = () => {
 
   // Responsive vertical positioning
   const getVerticalPosition = (index: number) => {
+  // Get vertical position based on index
+  const getVerticalPosition = useCallback((index: number): string => {
     const leftIndex = index < 3 ? index : index - 3;
     
     const positions = [
@@ -43,14 +45,12 @@ const Homepage: React.FC = () => {
     
     return positions[leftIndex] || positions[1];
   };
-
-  const buttons = buttonConfigs.map((config, index) => {
-    const isLeft = config.position === 'left';
-    const sideOffset = 'clamp(4px, 2vw, 20px)';
-    
-    const containerStyle: React.CSSProperties = {
-      position: 'fixed',
-      left: isLeft ? sideOffset : 'auto',
+    // Ensure we stay within bounds
+    if (leftIndex >= 0 && leftIndex < VERTICAL_POSITIONS.length) {
+      return VERTICAL_POSITIONS[leftIndex];
+    }
+    return VERTICAL_POSITIONS[1]; // Default to middle
+  }, []);
       right: isLeft ? 'auto' : sideOffset,
       top: getVerticalPosition(index),
       zIndex: 10,
@@ -58,50 +58,48 @@ const Homepage: React.FC = () => {
       alignItems: 'center',
       flexDirection: isLeft ? 'row' : 'row-reverse',
     };
-
-    return (
-      <div 
-        key={index} 
-        style={containerStyle}
-        className="star-button-container"
-      >
-        <StarButton 
-          isActive={activeButtonIndex === index}
-          onActivate={(isActive) => handleButtonActivate(index, isActive)}
-          onClick={() => console.log(`${config.label} clicked!`)}
-          label={config.label}
-          position={config.position}
-        />
+  // Memoize button rendering to prevent unnecessary recreations
+  const buttons = useMemo(() => {
+    return BUTTON_CONFIGS.map((config, index) => {
+      const isLeft = config.position === 'left';
+      const sideOffset = 'clamp(4px, 2vw, 20px)';
+      
+      const containerStyle: React.CSSProperties = {
+        position: 'fixed',
+        left: isLeft ? sideOffset : 'auto',
+        right: isLeft ? 'auto' : sideOffset,
+        top: getVerticalPosition(index),
+        zIndex: 100, // Increased for better layering
+        display: 'flex',
+        alignItems: 'center',
       </div>
     );
   });
-
-  return (
-    <>
-      <Head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link 
-          href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" 
-          rel="stylesheet" 
-        />
-      </Head>
-      
-      <div className="homepage-container" onClick={clearAllActive}>
-        <img
-          src="/background1.png"
-          alt="Background"
+      return (
+        <div 
+          key={index} 
+          style={containerStyle}
+          className="star-button-container"
+        >
+          <StarButton 
+            isSelected={selectedButtonIndex === index}
+            isHovered={hoveredButtonIndex === index}
+            onSelect={() => handleButtonSelect(index)}
+            onHover={(isHovering) => handleButtonHover(index, isHovering)}
+            onClick={() => console.log(`${config.label} clicked!`)}
+            label={config.label}
+            position={config.position}
+          />
+        </div>
           className="background-image"
         />
         <main className="main-content" onClick={(e) => e.stopPropagation()}>
-          {buttons}
-        </main>
-        
-        <style jsx global>{`
-          .star-button-container span {
-            font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
-          }
-        `}</style>
+        <div className="background-wrapper">
+          <Image
+            src="/background1.png"
+            alt="Celestial background"
+            fill
+            priority
         
         <style jsx>{`
           .homepage-container {
@@ -115,13 +113,15 @@ const Homepage: React.FC = () => {
             overflow: hidden;
           }
           
-          .background-image {
+
+          .background-wrapper {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+
+            height: 100dvh;
             z-index: 0;
           }
           
