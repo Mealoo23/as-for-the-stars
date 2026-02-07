@@ -8,7 +8,7 @@ const StarButton = () => (
 
 const Homepage: React.FC = () => {
   const buttons = Array.from({ length: 5 }, (_, index) => (
-    <div key={index} style={{ position: 'fixed', right: '4px', top: `${index * 300}px` }}>
+    <div key={index} style={{ position: 'fixed', right: '4px', top: `${index * 150}px` }}>
       <StarButton />
     </div>
   ));
