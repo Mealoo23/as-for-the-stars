@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import StarButton from './StarButton';
 import Head from 'next/head';
 
 const Homepage: React.FC = () => {
-  const [buttonHovered, setButtonHovered] = useState<boolean[]>([
-    false, false, false, false, false, false,
-  ]);
+  // Track which single button is active (-1 means none)
+  const [activeButtonIndex, setActiveButtonIndex] = useState<number>(-1);
 
-  const handleButtonHover = (index: number) => (hovered: boolean) => {
-    const newButtonHovered = [...buttonHovered];
-    newButtonHovered[index] = hovered;
-    setButtonHovered(newButtonHovered);
-  };
+  // Handle button activation - only one can be active at a time
+  const handleButtonActivate = useCallback((index: number, isActive: boolean) => {
+    if (isActive) {
+      setActiveButtonIndex(index);
+    } else if (activeButtonIndex === index) {
+      // Only clear if this was the active button
+      setActiveButtonIndex(-1);
+    }
+  }, [activeButtonIndex]);
+
+  // Clear all active states (useful for clicking background)
+  const clearAllActive = useCallback(() => {
+    setActiveButtonIndex(-1);
+  }, []);
 
   // Button configurations: 3 left, 3 right with labels
   const buttonConfigs = [
@@ -25,8 +33,6 @@ const Homepage: React.FC = () => {
 
   // Responsive vertical positioning
   const getVerticalPosition = (index: number) => {
-    // Left buttons: indices 0, 1, 2
-    // Right buttons: indices 3, 4, 5
     const leftIndex = index < 3 ? index : index - 3;
     
     const positions = [
@@ -60,8 +66,8 @@ const Homepage: React.FC = () => {
         className="star-button-container"
       >
         <StarButton 
-          buttonHovered={buttonHovered[index]} 
-          setButtonHovered={handleButtonHover(index)} 
+          isActive={activeButtonIndex === index}
+          onActivate={(isActive) => handleButtonActivate(index, isActive)}
           onClick={() => console.log(`${config.label} clicked!`)}
           label={config.label}
           position={config.position}
@@ -73,7 +79,6 @@ const Homepage: React.FC = () => {
   return (
     <>
       <Head>
-        {/* Elegant serif font for the golden labels */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link 
@@ -82,18 +87,17 @@ const Homepage: React.FC = () => {
         />
       </Head>
       
-      <div className="homepage-container">
+      <div className="homepage-container" onClick={clearAllActive}>
         <img
           src="/background1.png"
           alt="Background"
           className="background-image"
         />
-        <main className="main-content">
+        <main className="main-content" onClick={(e) => e.stopPropagation()}>
           {buttons}
         </main>
         
         <style jsx global>{`
-          /* Ensure fonts are loaded */
           .star-button-container span {
             font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
           }
@@ -135,7 +139,6 @@ const Homepage: React.FC = () => {
             touch-action: manipulation;
           }
           
-          /* Mobile optimizations */
           @media (max-width: 768px) {
             .homepage-container {
               padding: 0;
@@ -147,7 +150,6 @@ const Homepage: React.FC = () => {
             }
           }
           
-          /* Small mobile screens */
           @media (max-width: 480px) {
             .star-button-container {
               min-width: 40px;
@@ -155,7 +157,6 @@ const Homepage: React.FC = () => {
             }
           }
           
-          /* Tablet adjustments */
           @media (min-width: 769px) and (max-width: 1024px) {
             .star-button-container {
               min-width: 50px;
@@ -163,7 +164,6 @@ const Homepage: React.FC = () => {
             }
           }
           
-          /* Large screens */
           @media (min-width: 1440px) {
             .star-button-container {
               min-width: 60px;
