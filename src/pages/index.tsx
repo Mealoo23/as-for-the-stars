@@ -19,13 +19,13 @@ const Homepage: React.FC = () => {
   };
 
   const buttons = [
-    { left: true, top: 50 },
-    { left: true, top: 250 },
-    { left: true, top: 450 },
-    { left: false, top: 50 },
-    { left: false, top: 250 },
-    { left: false, top: 450 },
-    { left: true, top: 50 },
+    { left: true, top: 0 },
+    { left: true, top: 100 },
+    { left: true, top: 200 },
+    { left: false, top: 0 },
+    { left: false, top: 100 },
+    { left: false, top: 200 },
+    { left: true, top: 0 },
   ].map(({ left, top }, index) => (
     <div key={index} style={{ position: 'fixed', left: left ? '4px' : 'auto', right: left ? 'auto' : '4px', top: `${top}px` }}>
       <StarButton buttonHovered={buttonHovered[index]} setButtonHovered={handleButtonHover(index)} />
