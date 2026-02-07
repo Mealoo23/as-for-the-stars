@@ -47,6 +47,4 @@ export const StarButton: React.FC<StarButtonProps> = ({ buttonHovered, setButton
   // component logic
 };
 
-export const StarButtonType = StarButton as typeof StarButton & { default: typeof StarButton };
-
 export default StarButton;
