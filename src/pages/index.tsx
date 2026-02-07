@@ -13,6 +13,18 @@ const geistMono = Geist_Mono({
 });
 
 export default function Home() {
+  const starButton = (
+    <button>
+      <img src="/star-button.png" alt="Star Button" />
+    </button>
+  );
+
+  const buttons = Array.from({length: 5}, (_, index) => (
+    <div key={index} className="fixed right-4 top-{index * 50}px">
+      {starButton}
+    </div>
+  ));
+
   return (
     <div className={`${geistSans.className} ${geistMono.className}`}>
       <img
@@ -29,7 +41,7 @@ export default function Home() {
         }}
       />
       <main className="flex min-h-screen flex-col items-center justify-between p-24 relative z-10">
-        {/* <BirthChartForm /> */}
+        {buttons}
       </main>
     </div>
   );
