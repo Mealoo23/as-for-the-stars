@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StarButton, getButtonStyle } from './StarButton';
+import StarButton from './src/pages/StarButton';
 
 const Homepage: React.FC = () => {
   const [buttonHovered, setButtonHovered] = useState<boolean[]>([
