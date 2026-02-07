@@ -1,38 +1,5 @@
 import React, { useState } from 'react';
-
-const StarButton: React.FC<{ buttonHovered: boolean, setButtonHovered: (hovered: boolean) => void }> = ({ buttonHovered, setButtonHovered }) => (
-  <button
-    style={{
-      position: 'relative',
-      width: '100px',
-      height: '100px',
-      cursor: 'pointer',
-      ...getButtonStyle(buttonHovered),
-    }}
-    onMouseEnter={() => {
-      setButtonHovered(true);
-    }}
-    onMouseLeave={() => {
-      setButtonHovered(false);
-    }}
-  >
-    <img src="/star-button.png" alt="Star Button" style={{ width: '100%', height: '100%' }} />
-    {buttonHovered && (
-      <div
-        style={{
-          position: 'absolute',
-          top: '0',
-          left: '0',
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'rgba(255, 255, 0, 0.8)',
-          opacity: buttonHovered ? 1 : 0,
-          transition: 'opacity 0.2s ease-in-out',
-        }}
-      />
-    )}
-  </button>
-);
+import { StarButton, getButtonStyle } from './StarButton';
 
 const Homepage: React.FC = () => {
   const [buttonHovered, setButtonHovered] = useState<boolean[]>([
@@ -52,13 +19,13 @@ const Homepage: React.FC = () => {
   };
 
   const buttons = [
-    { left: true, top: 0 },
-    { left: true, top: 100 },
-    { left: true, top: 200 },
-    { left: false, top: 0 },
-    { left: false, top: 100 },
-    { left: false, top: 200 },
-    { left: true, top: 0 },
+    { left: true, top: 50 },
+    { left: true, top: 250 },
+    { left: true, top: 450 },
+    { left: false, top: 50 },
+    { left: false, top: 250 },
+    { left: false, top: 450 },
+    { left: true, top: 50 },
   ].map(({ left, top }, index) => (
     <div key={index} style={{ position: 'fixed', left: left ? '4px' : 'auto', right: left ? 'auto' : '4px', top: `${top}px` }}>
       <StarButton buttonHovered={buttonHovered[index]} setButtonHovered={handleButtonHover(index)} />
@@ -86,8 +53,7 @@ const Homepage: React.FC = () => {
       <style jsx>{`
         @media (max-width: 768px) {
           .star-button {
-            width: 50px;
-            height: 50px;
+            ${getButtonStyle(true)}
           }
         }
       `}</style>
